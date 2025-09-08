@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class AppConstants {
+  // Все группы первого института ГУАП
   static const List<String> firstInstituteGroups = [
     '1132', '1135', '1136', '1137', '1145',
     '1211', '1212', '1222', '1223', '1224', '1231', '1232', '1233', '1241', '1242', '1243', '1245',
@@ -9,10 +10,12 @@ class AppConstants {
     '1510м', '1511', '1512', '1522', '1523', '1523м', '1524', '1526м', '1530м', '1531', '1532', '1533', '1535', '1538', '1539', '1540м', '1541', '1542', '1543', '1545', '1546'
   ];
 
+  // Дни недели
   static const List<String> weekDays = [
     'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'
   ];
 
+  // Цвета недель
   static const Color upperWeekColor = Colors.red;
   static const Color lowerWeekColor = Colors.blue;
   
@@ -34,6 +37,7 @@ class AppConstants {
     ],
   );
 
+  // Цвета для типов пар
   static const Map<String, Color> lessonTypes = {
     'лек': Color(0xFF4CAF50),    // Зеленый для лекций
     'пр': Color(0xFF2196F3),     // Синий для практик

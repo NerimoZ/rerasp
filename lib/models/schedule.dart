@@ -32,7 +32,7 @@ class InfoModel {
       dateRelease: DateTime.tryParse((json['dateRelease'] ?? json['DateRelease'] ?? '').toString()) ?? DateTime.now(),
       dateImport: DateTime.tryParse((json['dateImport'] ?? json['DateImport'] ?? '').toString()) ?? DateTime.now(),
       currentWeek: (json['currentWeek'] ?? json['CurrentWeek'] ?? 1) as int,
-      isWeekOdd: json['isWeekOdd'] ?? json['IsWeekOdd'] ?? true,
+      isWeekOdd: json['isWeekOdd'] ?? json['IsWeekOdd'] ?? true, // Нечетная неделя (верхняя)
       currentDay: (json['currentDay'] ?? json['CurrentDay'] ?? 1) as int,
       currentLess: (json['currentLess'] ?? json['CurrentLess'] ?? 1) as int,
       pastLess: (json['pastLess'] ?? json['PastLess'] ?? 0) as int,
@@ -290,14 +290,14 @@ class ScheduleItem {
     return ScheduleItem(
       timeStart: lesson.begin ?? '',
       timeEnd: lesson.end ?? '',
-      subject: event.dics,
-      type: event.type,
+      subject: event.dics, // Название предмета
+      type: event.type, // Тип пары (лек, пр, лаб)
       room: room,
-      building: building,
-      teacher: teacher,
-      teacherPosition: teacherPosition,
-      groups: event.groupsAisIds.map((id) => id.toString()).toList(),
-      department: department,
+      building: building, // Корпус
+      teacher: teacher, // Преподаватель
+      teacherPosition: teacherPosition, // Должность преподавателя
+      groups: event.groupsAisIds.map((id) => id.toString()).toList(), // Список групп
+      department: department, // Кафедра
     );
   }
 }

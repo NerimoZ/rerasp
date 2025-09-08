@@ -6,22 +6,22 @@ class StorageService {
   
   static Future<void> saveSelectedGroup(String groupNumber) async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(_selectedGroupKey, groupNumber);
+    await prefs.setString(_selectedGroupKey, groupNumber); // Сохраняем выбранную группу
   }
   
   static Future<String?> getSelectedGroup() async {
     final prefs = await SharedPreferences.getInstance();
-    return prefs.getString(_selectedGroupKey);
+    return prefs.getString(_selectedGroupKey); // Получаем сохраненную группу
   }
   
   static Future<void> saveShowBreaks(bool showBreaks) async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool(_showBreaksKey, showBreaks);
+    await prefs.setBool(_showBreaksKey, showBreaks); // Сохраняем настройку перерывов
   }
   
   static Future<bool> getShowBreaks() async {
     final prefs = await SharedPreferences.getInstance();
-    return prefs.getBool(_showBreaksKey) ?? false;
+    return prefs.getBool(_showBreaksKey) ?? false; // Получаем настройку перерывов
   }
   
   static Future<void> clearAll() async {

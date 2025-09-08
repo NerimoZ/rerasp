@@ -12,6 +12,7 @@ class BreakCard extends StatelessWidget {
 
   String _calculateBreakDuration() {
     try {
+      // Парсим время начала и конца
       final start = TimeOfDay(
         hour: int.parse(startTime.split(':')[0]),
         minute: int.parse(startTime.split(':')[1]),
@@ -21,6 +22,7 @@ class BreakCard extends StatelessWidget {
         minute: int.parse(endTime.split(':')[1]),
       );
       
+      // Вычисляем длительность перерыва
       final startMinutes = start.hour * 60 + start.minute;
       final endMinutes = end.hour * 60 + end.minute;
       final durationMinutes = endMinutes - startMinutes;

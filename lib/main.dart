@@ -7,13 +7,14 @@ import 'services/storage_service.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+  // Блокируем поворот экрана
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
   
   runApp(const GuapScheduleApp());
-}
+} 
 
 class GuapScheduleApp extends StatelessWidget {
   const GuapScheduleApp({super.key});
@@ -25,10 +26,10 @@ class GuapScheduleApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
-        textTheme: GoogleFonts.outfitTextTheme(),
+        textTheme: GoogleFonts.outfitTextTheme(), // Применяем шрифт Outfit
         useMaterial3: true,
       ),
-      home: const SplashScreen(),
+      home: const SplashScreen(), // Стартовый экран
     );
   }
 }
@@ -49,6 +50,7 @@ class _SplashScreenState extends State<SplashScreen>
   void initState() {
     super.initState();
     
+    // Настройка анимации появления
     _animationController = AnimationController(
       duration: const Duration(milliseconds: 2000),
       vsync: this,
@@ -64,7 +66,7 @@ class _SplashScreenState extends State<SplashScreen>
     
     _animationController.forward();
     
-    _checkSavedGroup();
+    _checkSavedGroup(); // Проверяем сохраненную группу
   }
 
   @override
@@ -74,12 +76,13 @@ class _SplashScreenState extends State<SplashScreen>
   }
 
   Future<void> _checkSavedGroup() async {
-    await Future.delayed(const Duration(milliseconds: 1500));
+    await Future.delayed(const Duration(milliseconds: 1500)); // Показываем сплеш 1.5 сек
     
-    final savedGroup = await StorageService.getSelectedGroup();
+    final savedGroup = await StorageService.getSelectedGroup(); // Получаем сохраненную группу
     
     if (mounted) {
       if (savedGroup != null) {
+        // группа есть - идем в расписание
         Navigator.pushReplacement(
           context,
           PageRouteBuilder(
@@ -94,6 +97,7 @@ class _SplashScreenState extends State<SplashScreen>
           ),
         );
       } else {
+        // группы нет - идем в выбор группы
         Navigator.pushReplacement(
           context,
           PageRouteBuilder(

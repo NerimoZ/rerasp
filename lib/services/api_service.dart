@@ -7,23 +7,23 @@ class ApiService {
   static const String baseUrl = 'https://api.guap.ru/rasp-sem';
   
   static Future<List<Group>> getGroups() async {
-    final response = await http.get(Uri.parse('$baseUrl/v1/get-groups'));
+    final response = await http.get(Uri.parse('$baseUrl/v1/get-groups')); // Запрос к API
     
     if (response.statusCode == 200) {
       final List<dynamic> data = json.decode(response.body) as List<dynamic>;
-      return data.map((json) => Group.fromJson(json as Map<String, dynamic>)).toList();
+      return data.map((json) => Group.fromJson(json as Map<String, dynamic>)).toList(); // Парсим JSON
     } else {
       throw Exception('Ошибка загрузки групп: ${response.statusCode}');
     }
   }
 
   static List<Group> filterFirstInstituteGroups(List<Group> allGroups) {
-    return allGroups.where((group) => group.title.startsWith('1')).toList();
+    return allGroups.where((group) => group.title.startsWith('1')).toList(); // Фильтруем только первый институт
   }
 
   static Future<RaspFullModel> getRaspFull(int groupAisId) async {
     final response = await http.get(
-      Uri.parse('$baseUrl/v1/get-rasp-full?groupAisId=$groupAisId')
+      Uri.parse('$baseUrl/v1/get-rasp-full?groupAisId=$groupAisId') // Получаем полное расписание
     );
     
     if (response.statusCode == 200) {

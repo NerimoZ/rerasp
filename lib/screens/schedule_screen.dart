@@ -30,12 +30,13 @@ class _ScheduleScreenState extends State<ScheduleScreen>
   void initState() {
     super.initState();
     
+    // Анимация переключения недель
     _weekSwitchController = AnimationController(
       duration: const Duration(milliseconds: 300),
       vsync: this,
     );
     
-    _loadInitialData();
+    _loadInitialData(); // Загружаем данные при старте
   }
 
   @override
@@ -46,32 +47,32 @@ class _ScheduleScreenState extends State<ScheduleScreen>
   }
 
   Future<void> _loadInitialData() async {
-    final group = await StorageService.getSelectedGroup();
-    final breaks = await StorageService.getShowBreaks();
+    final group = await StorageService.getSelectedGroup(); // Получаем сохраненную группу
+    final breaks = await StorageService.getShowBreaks(); // Получаем настройку перерывов
     
     if (group == null) {
-      _navigateToGroupSelection();
+      _navigateToGroupSelection(); // Если группы нет - идем на выбор
       return;
     }
     
     setState(() {
       selectedGroup = group;
       showBreaks = breaks;
-      isUpperWeek = DateHelper.getWeekType(DateTime.now()) == 'верхняя';
+      isUpperWeek = DateHelper.getWeekType(DateTime.now()) == 'верхняя'; // Определяем текущую неделю
     });
     
-    await _loadSchedule();
+    await _loadSchedule(); // Загружаем расписание
   }
 
   Future<void> _loadSchedule() async {
     if (selectedGroup == null) return;
     
     setState(() {
-      isLoading = true;
+      isLoading = true; // Показываем загрузку
     });
     
     try {
-      final data = await ApiService.getSchedule(selectedGroup!);
+      final data = await ApiService.getSchedule(selectedGroup!); // Получаем данные с API
       setState(() {
         scheduleData = data;
         isLoading = false;
@@ -82,6 +83,7 @@ class _ScheduleScreenState extends State<ScheduleScreen>
       });
       
       if (mounted) {
+        // Показываем ошибку пользователю
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Ошибка загрузки: $e'),

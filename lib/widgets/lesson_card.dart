@@ -12,7 +12,7 @@ class LessonCard extends StatelessWidget {
 
   Color _getLessonTypeColor() {
     final type = lesson.type.toLowerCase();
-    return AppConstants.lessonTypes[type] ?? const Color(0xFF667eea); // Синий по умолчанию вместо серого
+    return AppConstants.lessonTypes[type] ?? const Color(0xFF667eea); // Получаем цвет по типу пары
   }
 
   @override

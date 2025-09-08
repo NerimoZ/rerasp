@@ -30,11 +30,13 @@ class _GroupSelectionScreenState extends State<GroupSelectionScreen>
     _textController = TextEditingController();
     _focusNode = FocusNode();
     
+    // Анимация появления элементов
     _animationController = AnimationController(
       duration: const Duration(milliseconds: 800),
       vsync: this,
     );
     
+    // Анимация кнопки продолжить
     _buttonAnimationController = AnimationController(
       duration: const Duration(milliseconds: 300),
       vsync: this,
@@ -71,8 +73,9 @@ class _GroupSelectionScreenState extends State<GroupSelectionScreen>
 
   List<String> get filteredGroups {
     if (searchQuery.isEmpty) {
-      return AppConstants.firstInstituteGroups;
+      return AppConstants.firstInstituteGroups; // Показываем все группы
     }
+    // Фильтруем группы по поисковому запросу
     return AppConstants.firstInstituteGroups
         .where((group) => group.toLowerCase().contains(searchQuery.toLowerCase()))
         .toList();
@@ -82,11 +85,11 @@ class _GroupSelectionScreenState extends State<GroupSelectionScreen>
     setState(() {
       isDropdownOpen = !isDropdownOpen;
       if (isDropdownOpen) {
-        _focusNode.requestFocus();
+        _focusNode.requestFocus(); // Открываем клавиатуру
       } else {
         _focusNode.unfocus();
         searchQuery = '';
-        _textController.clear();
+        _textController.clear(); // Очищаем поле
       }
     });
   }
@@ -98,6 +101,7 @@ class _GroupSelectionScreenState extends State<GroupSelectionScreen>
       _textController.text = group;
     });
     
+    // Закрываем dropdown с задержкой для анимации
     Future.delayed(const Duration(milliseconds: 150), () {
       setState(() {
         isDropdownOpen = false;
@@ -105,19 +109,21 @@ class _GroupSelectionScreenState extends State<GroupSelectionScreen>
     });
     
     _focusNode.unfocus();
-    _buttonAnimationController.forward();
+    _buttonAnimationController.forward(); // Показываем кнопку продолжить
   }
 
   bool get isGroupSelected {
+    // Проверяем что группа выбрана и существует в списке
     return selectedGroup != null && 
            AppConstants.firstInstituteGroups.contains(selectedGroup);
   }
 
   Future<void> _selectGroup() async {
     if (selectedGroup != null) {
-      await StorageService.saveSelectedGroup(selectedGroup!);
+      await StorageService.saveSelectedGroup(selectedGroup!); // Сохраняем группу
       
       if (mounted) {
+        // Переходим на экран расписания
         Navigator.pushReplacement(
           context,
           PageRouteBuilder(

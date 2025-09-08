@@ -2,23 +2,23 @@ import 'package:intl/intl.dart';
 
 class DateHelper {
   static String formatDate(DateTime date) {
-    return DateFormat('dd.MM.yyyy').format(date);
+    return DateFormat('dd.MM.yyyy').format(date); // Форматируем дату
   }
   
   static String getDayName(DateTime date) {
     const days = [
       'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье'
     ];
-    return days[date.weekday - 1];
+    return days[date.weekday - 1]; // Получаем название дня
   }
   
   static DateTime getWeekStart(DateTime date) {
-    return date.subtract(Duration(days: date.weekday - 1));
+    return date.subtract(Duration(days: date.weekday - 1)); // Начало недели (понедельник)
   }
   
   static List<DateTime> getWeekDays(DateTime date) {
     final weekStart = getWeekStart(date);
-    return List.generate(6, (index) => weekStart.add(Duration(days: index)));
+    return List.generate(6, (index) => weekStart.add(Duration(days: index))); // Дни недели
   }
   
   static String getWeekType(DateTime date) {
@@ -29,7 +29,7 @@ class DateHelper {
     
     final weekNumber = ((date.difference(firstMonday).inDays) / 7).floor() + 1;
     
-    return weekNumber % 2 == 1 ? 'верхняя' : 'нижняя';
+    return weekNumber % 2 == 1 ? 'верхняя' : 'нижняя'; // Определяем тип недели
   }
   
   static int getWeekNumber(DateTime date) {
