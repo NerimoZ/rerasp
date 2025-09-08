@@ -7,13 +7,29 @@ class ApiService {
   static const String baseUrl = 'https://api.guap.ru/rasp-sem';
   
   static Future<List<Group>> getGroups() async {
-    final response = await http.get(Uri.parse('$baseUrl/v1/get-groups'));
-    
-    if (response.statusCode == 200) {
-      final List<dynamic> data = json.decode(response.body) as List<dynamic>;
-      return data.map((json) => Group.fromJson(json as Map<String, dynamic>)).toList();
-    } else {
-      throw Exception('Ошибка загрузки групп: ${response.statusCode}');
+    try {
+      final response = await http.get(
+        Uri.parse('$baseUrl/v1/get-groups'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+      ).timeout(const Duration(seconds: 30));
+      
+      if (response.statusCode == 200) {
+        final List<dynamic> data = json.decode(response.body) as List<dynamic>;
+        return data.map((json) => Group.fromJson(json as Map<String, dynamic>)).toList();
+      } else {
+        throw Exception('Ошибка загрузки групп: ${response.statusCode} - ${response.body}');
+      }
+    } catch (e) {
+      if (e.toString().contains('SocketException')) {
+        throw Exception('Нет подключения к интернету. Проверьте соединение и попробуйте снова.');
+      } else if (e.toString().contains('TimeoutException')) {
+        throw Exception('Превышено время ожидания. Сервер не отвечает.');
+      } else {
+        throw Exception('Ошибка загрузки групп: $e');
+      }
     }
   }
 
