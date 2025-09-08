@@ -1134,5 +1134,5 @@ Widget build(BuildContext context) {
 
 ---
 
-**Версия**: 1.0.0  
-**Автор**: nayun
+by **nayun**
+version **1.0.0**
