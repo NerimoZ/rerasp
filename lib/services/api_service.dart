@@ -94,7 +94,7 @@ class ApiService {
     }
   }
 
-  static Future<Map<String, List<ScheduleItem>>> getSchedule(String groupNumber) async {
+  static Future<Map<String, List<ScheduleItem>>> getSchedule(String groupNumber, {bool? isUpperWeek}) async {
     final groups = await getGroups();
     final group = groups.firstWhere(
       (g) => g.title == groupNumber,
@@ -113,7 +113,9 @@ class ApiService {
       List<ScheduleItem> dayLessons = [];
       
       for (final lesson in day.lessons) {
-        final events = lesson.getEventsForWeek(raspFull.info.isWeekOdd);
+        final weekOdd = isUpperWeek != null ? isUpperWeek : raspFull.info.isWeekOdd;
+        print('API: isUpperWeek=$isUpperWeek, weekOdd=$weekOdd');
+        final events = lesson.getEventsForWeek(weekOdd);
         
         for (final event in events) {
           final prep = preps.firstWhere(

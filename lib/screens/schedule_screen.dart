@@ -71,7 +71,7 @@ class _ScheduleScreenState extends State<ScheduleScreen>
     });
     
     try {
-      final data = await ApiService.getSchedule(selectedGroup!);
+      final data = await ApiService.getSchedule(selectedGroup!, isUpperWeek: isUpperWeek);
       setState(() {
         scheduleData = data;
         isLoading = false;
@@ -112,9 +112,11 @@ class _ScheduleScreenState extends State<ScheduleScreen>
   }
 
   void _toggleWeekType() {
+    print('Текущая неделя: ${isUpperWeek ? "Верхняя" : "Нижняя"}');
     _weekSwitchController.forward().then((_) {
       setState(() {
         isUpperWeek = !isUpperWeek;
+        print('Переключили на: ${isUpperWeek ? "Верхняя" : "Нижняя"}');
       });
       _weekSwitchController.reverse();
       _loadSchedule();
@@ -274,6 +276,7 @@ class _ScheduleScreenState extends State<ScheduleScreen>
     return PageView.builder(
       controller: pageController,
       itemCount: 6, // Понедельник - Суббота
+      physics: const ClampingScrollPhysics(),
       itemBuilder: (context, index) {
         final day = weekDays[index];
         final dayName = DateHelper.getDayName(day);
@@ -436,9 +439,11 @@ class _ScheduleScreenState extends State<ScheduleScreen>
       }
     }
     
-    return ListView(
-      padding: EdgeInsets.zero,
-      children: items,
+    return SingleChildScrollView(
+      physics: const BouncingScrollPhysics(),
+      child: Column(
+        children: items,
+      ),
     );
   }
 
